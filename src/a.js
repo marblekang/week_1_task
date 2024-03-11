@@ -38,6 +38,21 @@ Worker.prototype.getHealth = function () {
 Worker.prototype.work = function () {
   this._health--;
 };
+JuniorEngineer.prototype = Object.create(Worker.prototype); // 부모 생성자 함수의 method 사용하기 위해 연결.
+JuniorEngineer.prototype._super = function (health) {
+  // 부모 생성자 함수에 정의된 property를 call
+  Worker.call(this, health);
+};
+JuniorEngineer.prototype.getIntelligence = function () {
+  // 자식 생성자에서 새로 정의
+  return this._intelligence;
+};
+JuniorEngineer.prototype.work = function () {
+  // 부모 생성자의 함수 호출, 자식 생성자에서 추가 로직 정의
+  Worker.prototype.work.call(this);
+  this._intelligence++;
+};
+
 //- 여기에 코드를 작성하세요
 
 /**
