@@ -25,6 +25,7 @@
  * 고비용 연산을 하는 모듈입니다.
  * 삼만개의 _task를 순차적으로 연산합니다.
  */
+
 class HardWork {
   constructor() {
     this._result = 0;
@@ -32,17 +33,18 @@ class HardWork {
   }
 
   do() {
-    for (let i = 0; i < this._tasks.length; i++) {
-      this.doAsync(() => {
-        console.log(i);
+    let i = 0;
+
+    const runTask = () => {
+      // for문을 재귀함수로 변경
+      // 재귀 탈출 조건
+      if (i < this._tasks.length) {
         this._tasks[i]();
-      });
-    }
-  }
-  doAsync(func) {
-    setTimeout(() => {
-      func();
-    }, 0);
+        i++;
+        requestAnimationFrame(runTask);
+      }
+    };
+    requestAnimationFrame(runTask);
   }
 
   // do() 이외의 메서드는 수정하지마세요
