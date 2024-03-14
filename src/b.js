@@ -34,19 +34,19 @@ class HardWork {
 
   do() {
     let i = 0;
-
-    const runTask = () => {
-      // for문을 재귀함수로 변경
-      // 재귀 탈출 조건
-      if (i < this._tasks.length) {
+    // 화살표 함수에서의 this는 함수가 정의된 곳의 this와 같음. (hardWork)
+    const runLoop = () => {
+      // 재귀 탈출 조건, i가 task 길이보다 커지면 종료.
+      if (i > this._tasks.length) {
+        cancelAnimationFrame(runLoop);
+      } else {
         this._tasks[i]();
         i++;
-        requestAnimationFrame(runTask);
+        requestAnimationFrame(runLoop);
       }
     };
-    requestAnimationFrame(runTask);
+    requestAnimationFrame(runLoop);
   }
-
   // do() 이외의 메서드는 수정하지마세요
   get result() {
     return this._result;

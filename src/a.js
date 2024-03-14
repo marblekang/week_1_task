@@ -18,39 +18,31 @@
  */
 
 // 생성자 함수는 수정하지 마세요
-function Worker(health) {
-  this._health = health ?? 10;
+function Worker(health = 10) {
+  this._health = health;
 }
-
-function JuniorEngineer(health, intelligence) {
-  this._super(health);
-  this._intelligence = intelligence ?? 1;
-  if (this._intelligence > 10) {
-    this._isBornGenius = true;
-  }
+function JuniorEngineer(health = 10, intelligence = 1) {
+  Worker.call(this, health);
+  this._intelligence = intelligence;
+  this._isBornGenius = this._intelligence > 10 && true;
 }
-//- 생성자 함수는 수정하지 마세요
-
-// 여기에 코드를 작성하세요
 Worker.prototype.getHealth = function () {
   return this._health;
 };
 Worker.prototype.work = function () {
   this._health--;
 };
-JuniorEngineer.prototype = Object.create(Worker.prototype); // 부모 생성자 함수의 method 사용하기 위해 연결.
-JuniorEngineer.prototype._super = function (health) {
-  // 부모 생성자 함수에 정의된 property를 call
-  Worker.call(this, health);
+JuniorEngineer.prototype = Object.create(Worker.prototype);
+
+JuniorEngineer.prototype.isBornGenius = function () {
+  return this._isBornGenius;
 };
 JuniorEngineer.prototype.getIntelligence = function () {
-  // 자식 생성자에서 새로 정의
   return this._intelligence;
 };
 JuniorEngineer.prototype.work = function () {
-  // 부모 생성자의 함수 호출, 자식 생성자에서 추가 로직 정의
   Worker.prototype.work.call(this);
-  this._intelligence++;
+  this._isBornGenius++;
 };
 
 //- 여기에 코드를 작성하세요
@@ -78,17 +70,17 @@ JuniorEngineer.prototype.work = function () {
  * - V8 엔진의 히든클래스 개념을 이해하고 이 개념을 응용하여 최적화 해보세요.
  * - ES 모듈시스템으로 바꾼뒤, 확장자를 .mjs로 변경한 뒤 실행해보세요. 최적화 결과가 같을까요?
  */
-// function main() {
-//   var startTime = performance.now();
-//   for (var i = 0; i < 10000000; i++) {
-//     new JuniorEngineer(10, Math.floor(Math.random() * 20)).isBornGenius();
-//   }
-//   var endTime = performance.now();
+function main() {
+  var startTime = performance.now();
+  for (var i = 0; i < 10000000; i++) {
+    new JuniorEngineer(10, Math.floor(Math.random() * 20)).isBornGenius();
+  }
+  var endTime = performance.now();
 
-//   console.log(endTime - startTime);
-// }
+  console.log(endTime - startTime);
+}
 
-// main();
+main();
 
 module.exports = {
   Worker,
