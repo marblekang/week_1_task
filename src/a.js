@@ -34,15 +34,16 @@ Worker.prototype.work = function () {
 };
 JuniorEngineer.prototype = Object.create(Worker.prototype);
 
-JuniorEngineer.prototype.isBornGenius = function () {
-  return this._isBornGenius;
-};
 JuniorEngineer.prototype.getIntelligence = function () {
   return this._intelligence;
 };
+JuniorEngineer.prototype.isBornGenius = function () {
+  return this._isBornGenius;
+};
+
 JuniorEngineer.prototype.work = function () {
+  this._intelligence++;
   Worker.prototype.work.call(this);
-  this._isBornGenius++;
 };
 
 //- 여기에 코드를 작성하세요
